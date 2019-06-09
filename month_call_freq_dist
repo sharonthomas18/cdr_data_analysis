@@ -1,0 +1,101 @@
+#Determine one a month by month basis whether there is any significant variation in the call frequency distribution observed.
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+
+def freqdist(a, month):
+    if not a:
+        return;
+    elif a:
+
+        arr = np.array(a);
+        u, cou = np.unique(arr, return_counts='true');
+        subnum, callnum = np.unique(cou, return_counts='true');
+        subnumlog = [];
+        callnumlog = [];
+        for i in range(0, len(subnum)):
+            l = math.log10(subnum[i]);
+            subnumlog.append(l);
+            m = math.log10(callnum[i]);
+            callnumlog.append(m);
+        slope = np.polyfit(np.array(subnum), np.array(callnum), 1);
+        print('slope ', slope, 'of', month);
+        plt.figure();
+        plt.title('%s Log of number of subscribers vs log of number of calls' % month);
+        plt.plot(subnumlog, callnumlog);
+        plt.show();
+        plt.figure();
+        plt.title('%s Log of number of subscribers vs number of calls' % month);
+        plt.plot(subnum, callnumlog);
+        plt.show();
+        plt.figure();
+        plt.title('%s Call Frequency Distribution' % month);
+        plt.plot(subnum, callnum, 'r-');
+        plt.show();
+        plt.figure();
+        plt.title('%s Call Frequency Distribution' % month);
+        plt.plot(subnum[1:20], callnum[1:20]);
+        plt.show();
+
+
+path = r'C:\Users\user\Documents\MEECE Sem 2\Topics in Advanced Mobile Networks\CDR set.csv';
+C = pd.read_csv(path, sep=',', header=0);
+C.astype(str);
+sub = C.iloc[:, 0];
+date = C.iloc[:, 2];
+r = len(date);
+jan = [];
+feb = [];
+mar = [];
+apr = [];
+may = [];
+jun = [];
+jul = [];
+aug = [];
+sep = [];
+oct = [];
+nov = [];
+dec = [];
+for i in range(1, r):
+    d = date[i];
+    mm = d[5:7];
+    mm = float(mm);
+    if mm == 2:
+        feb.append(sub[i]);
+    elif mm == 3:
+        mar.append(sub[i]);
+    elif mm == 4:
+        apr.append(sub[i]);
+    elif mm == 5:
+        may.append(sub[i]);
+    elif mm == 6:
+        jun.append(sub[i]);
+    elif mm == 7:
+        jul.append(sub[i]);
+    elif mm == 8:
+        aug.append(sub[i]);
+    elif mm == 9:
+        sep.append(sub[i]);
+    elif mm == 10:
+        oct.append(sub[i]);
+    elif mm == 11:
+        nov.append(sub[i]);
+    elif mm == 12:
+        dec.append(sub[i]);
+    elif mm == 1:
+        jan.append(sub[i]);
+freqdist(jan, 'January');
+freqdist(feb, 'February');
+freqdist(mar, 'March');
+freqdist(apr, 'April');
+freqdist(may, 'May');
+freqdist(jun, 'June');
+freqdist(jul, 'July');
+freqdist(aug, 'August');
+freqdist(sep, 'September');
+freqdist(oct, 'October');
+freqdist(nov, 'November');
+freqdist(dec, 'December');
