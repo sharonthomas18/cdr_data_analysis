@@ -1,0 +1,60 @@
+# Determine and plot the average hourly number of calls for each day of the week (i.e. 24 average hourly value for a Monday, Tuesday etc
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def findhours(start, row, inv, time):
+    arr = [];
+    for j in range(start, max(inv), 7):
+        for i in range(0, row):
+            if inv[i] == j:
+                tt = time[i];
+                hh = tt[0:2];
+                hh = float(hh);
+                arr.append(hh);
+    return arr;
+
+
+def display(day_arr, day):
+    a = np.array(day_arr);
+    un, c = np.unique(a, return_counts='true');
+    plt.figure();
+    plt.title('Average hourly calls of %s' % day);
+    plt.plot(un, c);
+    plt.show();
+
+
+path = r'C:\Users\user\Documents\MEECE Sem 2\Topics in Advanced Mobile Networks\CDR set.csv';
+C = pd.read_csv(path, sep=',', header=0);
+C.astype(str);
+mon = [];
+tue = [];
+wed = [];
+thurs =[];
+fri = [];
+sat = [];
+sun = [];
+date = C.iloc[:, 2];
+time = C.iloc[:, 3];
+
+r = len(date);
+d = np.array(date);
+time.astype(str)
+u, inv = np.unique(d, return_inverse='true');
+
+mon=findhours(0, r, inv, time);
+display(mon, 'Monday');
+tue=findhours(1, r, inv, time);
+display(tue, 'Tuesday');
+wed=findhours(2, r, inv, time);
+display(wed, 'Wednesday');
+thurs=findhours(3, r, inv, time);
+display(thurs, 'Thursday');
+fri=findhours(4, r, inv, time);
+display(fri, 'Friday');
+sat=findhours(5, r, inv,  time);
+display(sat, 'Saturday');
+sun=findhours(6, r, inv, time);
+display(sun, 'Sunday');
