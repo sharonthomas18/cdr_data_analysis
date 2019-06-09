@@ -1,0 +1,85 @@
+# Determine and plot the variability of the number of calls per day over the full analysis period.
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# To plot the variability of calls over analysis period
+def varcall(arr, m):
+    if not arr:
+        return;
+    elif arr:
+        a = np.array(arr);
+        u, cou = np.unique(a, return_counts='true');
+        plt.figure();
+        plt.title('Variability number of calls per day of %s' % m);
+        plt.bar(u, cou, width=0.8);
+        plt.xticks(u, u, rotation='vertical');
+        plt.show();
+
+# path of the database
+path = r'C:\Users\user\Documents\MEECE Sem 2\Topics in Advanced Mobile Networks\CDR set.csv';
+C = pd.read_csv(path, sep=',', header=0);
+date = C.iloc[:, 2];
+r = len(date);
+d = np.array(date);
+u, cou = np.unique(d, return_counts='true');
+plt.figure();
+plt.title('Variability number of calls per day');
+plt.bar(u, cou, width=0.5);
+plt.xticks(u, u, rotation='vertical');
+plt.show();
+jan = [];
+feb = [];
+mar = [];
+apr = [];
+may = [];
+jun = [];
+jul = [];
+aug = [];
+sep = [];
+oct = [];
+nov = [];
+dec = [];
+for i in range(0, r):
+    d = date[i];
+    mm = d[5:7];
+    mm = float(mm);
+    if mm == 2:
+        feb.append(date[i]);
+    elif mm == 3:
+        mar.append(date[i]);
+    elif mm == 4:
+        apr.append(date[i]);
+    elif mm == 5:
+        may.append(date[i]);
+    elif mm == 6:
+        jun.append(date[i]);
+    elif mm == 7:
+        jul.append(date[i]);
+    elif mm == 8:
+        aug.append(date[i]);
+    elif mm == 9:
+        sep.append(date[i]);
+    elif mm == 10:
+        oct.append(date[i]);
+    elif mm == 11:
+        nov.append(date[i]);
+    elif mm == 12:
+        dec.append(date[i]);
+    elif mm == 1:
+        jan.append(date[i]);
+
+
+varcall(jan, 'January');
+varcall(feb, 'February');
+varcall(mar, 'March');
+varcall(apr, 'April');
+varcall(may, 'May');
+varcall(jun, 'June');
+varcall(jul, 'July');
+varcall(aug, 'August');
+varcall(sep, 'September');
+varcall(oct, 'October');
+varcall(nov, 'November');
+varcall(dec, 'December');
