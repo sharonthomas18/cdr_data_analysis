@@ -1,0 +1,42 @@
+#Determine and plot the call frequency distribution measured over the whole data-set and determine whether all or portions of the distributions is well matched by either exponential or power law distributions.
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+path = r'C:\Users\user\Documents\MEECE Sem 2\Topics in Advanced Mobile Networks\CDR set.csv';
+C = pd.read_csv(path, sep=',', header=0);
+sub = C.iloc[:, 0];
+r = len(sub);
+u, c = np.unique(sub, return_counts='true');
+subnum, callnum = np.unique(c, return_counts='true');
+subnumlog = [];
+callnumlog = [];
+for i in range(0, len(subnum)):
+    l = math.log10(subnum[i]);
+    subnumlog.append(l);
+    m = math.log10(callnum[i]);
+    callnumlog.append(m);
+plt.figure();
+plt.title('Log of number of subscribers vs log of number of calls');
+plt.plot(subnumlog, callnumlog);
+plt.show();
+plt.figure();
+plt.title('Log of number of subscribers vs number of calls');
+plt.plot(subnum, callnumlog);
+plt.show();
+slope = np.polyfit(np.array(subnum), np.array(callnum), 1);
+print('slope ', slope);
+plt.figure();
+plt.title('Call Frequency Distribution');
+plt.plot(subnum, callnum);
+plt.show();
+plt.figure();
+plt.title('Call Frequency Distribution');
+plt.plot(subnum[1:100], callnum[1:100]);
+plt.show();
+plt.figure();
+plt.title('Call Frequency Distribution');
+plt.plot(subnum[1:20], callnum[1:20]);
+plt.show();
